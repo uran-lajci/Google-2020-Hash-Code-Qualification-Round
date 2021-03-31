@@ -28,7 +28,9 @@ public class GeneticAlgorithm {
 
     private Data data;
 
-    private List<Gene> activePopulation;
+    private int currentGeneration;
+
+    public List<Gene> activePopulation;
     private List<Gene> nextGeneration;
 
     public GeneticAlgorithm(double procreationFactor, double mutationRate, int maxSteps, Data data, String mutationType) {
@@ -36,28 +38,41 @@ public class GeneticAlgorithm {
         this.procreationFactor = procreationFactor;
         this.mutationRate = mutationRate;
         this.data = data;
-        this.libraries = data.libraries;
+        this.libraries = new ArrayList<>(data.libraries);
         this.mutationType = mutationType;
+        this.currentGeneration = 0;
 
-        activePopulation = new ArrayList<>();
-        currentBestSolution = new Gene(data.noDays);
+        this.activePopulation = new ArrayList<>();
+        this.currentBestSolution = new Gene(data.noDays);
 
         generateInitialPopulation();
 
         findAndSaveBestSolution();
     }
 
-    private void findAndSaveBestSolution() {
+    public int getCurrentGeneration() {
+        return currentGeneration;
+    }
 
-        Gene bestInPopulation = activePopulation.get(0);
+    public Gene getCurrentBestSolution() {
+        return currentBestSolution;
+    }
+
+    private void findAndSaveBestSolution() {
+        Gene bestInPopulation;
+        if (activePopulation.size() == 0){
+            bestInPopulation = new Gene(data.noDays);
+        }else{
+            bestInPopulation = activePopulation.get(0);
+        }
         for (Gene individual : activePopulation) {
-            if (individual.compareTo(bestInPopulation) < 0) {
+            if (individual.compareTo(bestInPopulation) > 0) {
                 bestInPopulation = individual;
             }
         }
 
-        if (currentBestSolution.compareTo(bestInPopulation) > 0) {
-            currentBestSolution = bestInPopulation;
+        if (this.currentBestSolution.compareTo(bestInPopulation) < 0) {
+            this.currentBestSolution = bestInPopulation;
         }
     }
 
@@ -68,6 +83,10 @@ public class GeneticAlgorithm {
         makeNewPopulation();
 
         findAndSaveBestSolution();
+
+        this.currentGeneration++;
+
+        System.out.println(this.currentGeneration);
 
     }
 
@@ -82,7 +101,7 @@ public class GeneticAlgorithm {
 
         for (int i = 0; i < this.libraries.size(); i++) {
 
-            if (currentGene.getSignupTime() + auxLibraryList.get(0).signUpTime > days){
+            if (currentGene.getSignupTime() + auxLibraryList.get(0).signUpTime > days || i == this.libraries.size() - 1){
                 this.activePopulation.add(new Gene(currentGene));
                 currentGene = new Gene(days);
             }else{
@@ -115,7 +134,7 @@ public class GeneticAlgorithm {
     private void makeNewPopulation() {
 
         activePopulation.addAll(nextGeneration);
-        Collections.sort(activePopulation);
+        activePopulation.sort(Collections.reverseOrder());
         activePopulation = new ArrayList<>(activePopulation.subList(0, populationSize));
     }
 
@@ -133,11 +152,9 @@ public class GeneticAlgorithm {
     }
 
     private Gene[] crossover(Gene parent1, Gene parent2) {
-
         SplittableRandom random = new SplittableRandom();
 
         int minimumParentSize;
-
         Gene[] children = new Gene[2];
 
         List<Library> child1 = new ArrayList<>();

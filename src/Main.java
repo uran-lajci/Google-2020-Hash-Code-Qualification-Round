@@ -1,4 +1,6 @@
 import java.awt.*;
+
+import ga.GeneticAlgorithm;
 import shared.Data;
 import shared.FileReader;
 
@@ -32,8 +34,35 @@ public class Main {
             choice = scan.nextLine();
             switch (choice) {
                 case "1":
-                    //Insert algorithm 1
-                    System.out.printf("\n\nInsert algorithm 1!");
+                    System.out.println("Insert the procreation factor:");
+                    String input = scan.nextLine();
+                    double procreationFactor = Double.parseDouble(input);
+
+                    System.out.println("Insert the mutation rate:");
+                    input = scan.nextLine();
+                    double mutationRate = Double.parseDouble(input);
+
+                    System.out.println("Insert the maximum number of generations:");
+                    input = scan.nextLine();
+                    int maxSteps = Integer.parseInt(input);
+
+                    System.out.println("Insert the mutation type:");
+                    String mutationType = scan.nextLine().trim();
+
+                    long startTime = System.nanoTime();
+
+
+                    GeneticAlgorithm ga = new GeneticAlgorithm(procreationFactor, mutationRate, maxSteps, data, mutationType);
+
+                    while (ga.getCurrentGeneration() < maxSteps){
+                        ga.algorithmStep();
+                    }
+
+                    long endTime = System.nanoTime();
+                    long timeElapsed = (endTime - startTime) / 1000000;
+
+                    String result = String.format("Best score: %d points in %f seconds.", ga.getCurrentBestSolution().calculateScore(), timeElapsed);
+                    System.out.println(result);
                     break;
                 case "2":
                     //Insert algorithm 2
@@ -56,7 +85,7 @@ public class Main {
 
     public static void printMenu(){
         System.out.printf("\n\n======================= MENU =======================\n\n");
-        System.out.printf("1 - Algorithm 1\n2 - Algorithm 2\n3 - Algorithm 3\n0 - Exit");
+        System.out.printf("1 - Genetic Algorithm\n2 - Algorithm 2\n3 - Algorithm 3\n0 - Exit");
         System.out.printf("\n\nPlease select one option:");
     }
 

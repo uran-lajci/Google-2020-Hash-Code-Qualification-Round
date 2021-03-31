@@ -1,14 +1,12 @@
-package ga;
+package shared;
 
 import javafx.util.Pair;
-import shared.Book;
-import shared.Library;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
-public class Gene implements Comparable<Gene> {
+public class Solution implements Comparable<Solution> {
 
     /**
      * Total days
@@ -19,22 +17,22 @@ public class Gene implements Comparable<Gene> {
 
     private List<Library> libraries;
 
-    public Gene(int days) {
+    public Solution(int days) {
         this.days = days;
         this.libraries = new ArrayList<>();
         this.noLibraries = 0;
     }
 
-    public Gene(List<Library> libraries, int days) {
+    public Solution(List<Library> libraries, int days) {
         this.days = days;
         this.libraries = libraries;
         this.noLibraries = libraries.size();
     }
 
-    public Gene(Gene gene) {
-        this.days = gene.days;
-        this.libraries = new ArrayList<>(gene.libraries);
-        this.noLibraries = gene.noLibraries;
+    public Solution(Solution solution) {
+        this.days = solution.days;
+        this.libraries = new ArrayList<>(solution.libraries);
+        this.noLibraries = solution.noLibraries;
     }
 
     public List<Library> getLibraries() {
@@ -64,8 +62,10 @@ public class Gene implements Comparable<Gene> {
     }
 
     public void addLibrary(Library library) {
-        this.libraries.add(library);
-        this.noLibraries++;
+        if (!libraries.contains(library)){
+            this.libraries.add(library);
+            this.noLibraries++;
+        }
     }
 
     public int getSignupTime() {
@@ -95,7 +95,22 @@ public class Gene implements Comparable<Gene> {
     }
 
     @Override
-    public int compareTo(Gene o) {
+    public int compareTo(Solution o) {
         return this.calculateScore() - o.calculateScore();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Solution solution = (Solution) o;
+        return days == solution.days &&
+                noLibraries == solution.noLibraries &&
+                libraries.equals(solution.libraries);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(days, noLibraries, libraries);
     }
 }

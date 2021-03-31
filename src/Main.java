@@ -34,8 +34,12 @@ public class Main {
             choice = scan.nextLine();
             switch (choice) {
                 case "1":
-                    System.out.println("Insert the procreation factor:");
+                    System.out.println("Insert the minimum population size:");
                     String input = scan.nextLine();
+                    int minimumPopulationSize = Integer.parseInt(input);
+
+                    System.out.println("Insert the procreation factor:");
+                    input = scan.nextLine();
                     double procreationFactor = Double.parseDouble(input);
 
                     System.out.println("Insert the mutation rate:");
@@ -51,8 +55,11 @@ public class Main {
 
                     long startTime = System.nanoTime();
 
+                    System.out.println("Generating initial population...\n");
 
-                    GeneticAlgorithm ga = new GeneticAlgorithm(procreationFactor, mutationRate, maxSteps, data, mutationType);
+                    GeneticAlgorithm ga = new GeneticAlgorithm(procreationFactor, mutationRate, maxSteps, data, mutationType, minimumPopulationSize);
+
+                    System.out.println("Population generated. Starting evolution...");
 
                     while (ga.getCurrentGeneration() < maxSteps){
                         ga.algorithmStep();
@@ -61,7 +68,9 @@ public class Main {
                     long endTime = System.nanoTime();
                     long timeElapsed = (endTime - startTime) / 1000000;
 
-                    String result = String.format("Best score: %d points in %f seconds.", ga.getCurrentBestSolution().calculateScore(), timeElapsed);
+                    System.out.println("Finished evolution.\n");
+
+                    String result = String.format("Best score: %d points in %d seconds.", ga.getCurrentBestSolution().calculateScore(), timeElapsed);
                     System.out.println(result);
                     break;
                 case "2":

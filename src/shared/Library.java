@@ -84,6 +84,7 @@ public class Library {
                 break;
             }
             Book chosenBook = orderedLibraryBooks.remove(0);
+            this.chosenBooks.add(chosenBook);
             usedBooks.add(chosenBook);
             score+= chosenBook.score;
         }

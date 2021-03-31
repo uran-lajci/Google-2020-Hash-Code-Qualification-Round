@@ -17,22 +17,27 @@ public class Solution implements Comparable<Solution> {
 
     private List<Library> libraries;
 
+    private int score;
+
     public Solution(int days) {
         this.days = days;
         this.libraries = new ArrayList<>();
         this.noLibraries = 0;
+        this.score = 0;
     }
 
     public Solution(List<Library> libraries, int days) {
         this.days = days;
         this.libraries = libraries;
         this.noLibraries = libraries.size();
+        this.score = updateScore();
     }
 
     public Solution(Solution solution) {
         this.days = solution.days;
         this.libraries = new ArrayList<>(solution.libraries);
         this.noLibraries = solution.noLibraries;
+        this.score = solution.score;
     }
 
     public List<Library> getLibraries() {
@@ -47,7 +52,12 @@ public class Solution implements Comparable<Solution> {
         return days;
     }
 
-    public int calculateScore() {
+    public int getScore() {
+        return score;
+    }
+
+    // IMPORTANT!!! MUST BE CALLED IN ORDER TO UPDATE THE SCORE. IF CHANGES WERE MADE TO THE LIBRARIES THE SCORE WILL BE WRONG UNTIL CALLED
+    public int updateScore() {
         int currentlyAvailableDays = this.days;
         int score = 0;
         List<Book> usedBooks = new ArrayList<>();
@@ -58,6 +68,7 @@ public class Solution implements Comparable<Solution> {
             usedBooks.addAll(currentBooks);
             currentlyAvailableDays -= library.signUpTime;
         }
+        this.score = score;
         return score;
     }
 
@@ -96,7 +107,7 @@ public class Solution implements Comparable<Solution> {
 
     @Override
     public int compareTo(Solution o) {
-        return this.calculateScore() - o.calculateScore();
+        return this.score - o.score;
     }
 
     @Override

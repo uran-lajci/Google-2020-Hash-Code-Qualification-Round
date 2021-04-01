@@ -48,7 +48,6 @@ public class GeneticAlgorithm {
 
         generateInitialPopulation();
 
-        findAndSaveBestSolution();
     }
 
     public int getCurrentGeneration() {
@@ -67,13 +66,13 @@ public class GeneticAlgorithm {
             bestInPopulation = activePopulation.get(0);
         }
         for (Solution individual : activePopulation) {
-            if (individual.compareTo(bestInPopulation) > 0) {
+            if (individual.getScore() > bestInPopulation.getScore()) {
                 bestInPopulation = individual;
             }
         }
-        String res = String.format("Generation %d best score: %d points", this.getCurrentGeneration(), bestInPopulation.calculateScore());
+        String res = String.format("Generation %d best score: %d points", this.getCurrentGeneration(), bestInPopulation.getScore());
         System.out.println(res);
-        if (this.currentBestSolution.compareTo(bestInPopulation) < 0) {
+        if (this.currentBestSolution.getScore() < bestInPopulation.getScore()) {
             this.currentBestSolution = bestInPopulation;
         }
     }
@@ -94,18 +93,20 @@ public class GeneticAlgorithm {
         int index = 0;
         Solution currentSolution = new Solution(days);
         List<Library> auxList = new ArrayList<>(this.data.libraries);
+        Collections.shuffle(auxList);
         while (activePopulation.size() < this.minimumPopulationSize) {
-            if (index == auxList.size()){
+            if (index == auxList.size()) {
                 if (currentSolution.getNoLibraries() == auxList.size()) {
-                    this.activePopulation.add(currentSolution);
+                    currentSolution.updateScore();
+                    this.activePopulation.add(new Solution(currentSolution));
                     currentSolution = new Solution(days);
-                    
                 }
                 Collections.shuffle(auxList);
                 index = 0;
             }
 
-            if (currentSolution.getSignupTime() + auxList.get(index).signUpTime > days) {
+            if (currentSolution.getSignUpTime() + auxList.get(index).signUpTime > days) {
+                currentSolution.updateScore();
                 this.activePopulation.add(new Solution(currentSolution));
                 currentSolution = new Solution(days);
             }
@@ -153,10 +154,11 @@ public class GeneticAlgorithm {
         Solution first = activePopulation.get(random.nextInt(populationSize));
         Solution second = activePopulation.get(random.nextInt(populationSize));
 
-        if (first.calculateScore() > second.calculateScore())
+        if (first.getScore() > second.getScore()) {
             return first;
-        else
+        } else {
             return second;
+        }
     }
 
     private Solution[] crossover(Solution parent1, Solution parent2) {
@@ -176,20 +178,20 @@ public class GeneticAlgorithm {
 
         int crossoverPoint = random.nextInt(minimumParentSize);
 
+        children[0] = new Solution(this.data.noDays);
+        children[1] = new Solution(this.data.noDays);
+
         List<Library> parent1Libraries = parent1.getLibraries();
         List<Library> parent2Libraries = parent1.getLibraries();
 
         for (int i = 0; i < crossoverPoint; i++) {
-            child1.add(i, parent1Libraries.get(i));
-            child2.add(i, parent2Libraries.get(i));
+            children[0].addLibrary(parent1Libraries.get(i));
+            children[1].addLibrary(parent2Libraries.get(i));
         }
         for (int i = crossoverPoint; i < minimumParentSize; i++) {
-            child1.add(i, parent1Libraries.get(i));
-            child2.add(i, parent2Libraries.get(i));
+            children[0].addLibrary(parent2Libraries.get(i));
+            children[1].addLibrary(parent1Libraries.get(i));
         }
-
-        children[0] = new Solution(child1, this.data.noDays);
-        children[1] = new Solution(child2, this.data.noDays);
 
         children[0].cleanLibraries();
         children[1].cleanLibraries();
@@ -202,9 +204,10 @@ public class GeneticAlgorithm {
         SplittableRandom random = new SplittableRandom();
 
         for (int i = 0; i < individual.getNoLibraries(); i++) {
-            if (random.nextDouble(1) < mutationRate) {
+            double rn = random.nextDouble(1);
+            if (rn < mutationRate) {
                 //if swap, swap current library with a random one from the list of all libraries
-                if (mutationType.equalsIgnoreCase("swap") || individual.getNoLibraries() == 1) {
+                if (mutationType.equalsIgnoreCase("switch") || individual.getNoLibraries() == 1) {
                     int newLibraryPosition = random.nextInt(this.data.libraries.size());
                     Library newLibrary = this.data.libraries.get(newLibraryPosition);
                     individual.getLibraries().set(i, newLibrary);
@@ -218,6 +221,7 @@ public class GeneticAlgorithm {
                 }
             }
         }
+        individual.updateScore();
         return individual;
     }
 

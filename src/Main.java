@@ -70,7 +70,7 @@ public class Main {
 
                     System.out.println("Finished evolution.\n");
 
-                    String result = String.format("Best score: %d points in %d seconds.", ga.getCurrentBestSolution().calculateScore(), timeElapsed);
+                    String result = String.format("Best score: %d points in %d seconds.", ga.getCurrentBestSolution().updateScore(), timeElapsed);
                     System.out.println(result);
                     break;
                 case "2":

@@ -1,10 +1,6 @@
 package shared;
 
-import javafx.util.Pair;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Solution implements Comparable<Solution> {
 
@@ -15,6 +11,8 @@ public class Solution implements Comparable<Solution> {
 
     private int noLibraries;
 
+    private HashMap<Integer, Boolean> scannedBooks;
+
     private List<Library> libraries;
 
     private int score;
@@ -22,21 +20,16 @@ public class Solution implements Comparable<Solution> {
     public Solution(int days) {
         this.days = days;
         this.libraries = new ArrayList<>();
+        this.scannedBooks = new HashMap<>();
         this.noLibraries = 0;
         this.score = 0;
-    }
-
-    public Solution(List<Library> libraries, int days) {
-        this.days = days;
-        this.libraries = libraries;
-        this.noLibraries = libraries.size();
-        this.score = updateScore();
     }
 
     public Solution(Solution solution) {
         this.days = solution.days;
         this.libraries = new ArrayList<>(solution.libraries);
         this.noLibraries = solution.noLibraries;
+        this.scannedBooks = new HashMap<>(solution.scannedBooks);
         this.score = solution.score;
     }
 
@@ -60,12 +53,11 @@ public class Solution implements Comparable<Solution> {
     public int updateScore() {
         int currentlyAvailableDays = this.days;
         int score = 0;
-        List<Book> usedBooks = new ArrayList<>();
+        this.resetScans();
+
         for (Library library : libraries) {
-            Pair<List<Book>, Integer> booksAndScore = library.getBooksAndScore(usedBooks, currentlyAvailableDays);
-            List<Book> currentBooks = booksAndScore.getKey();
-            score += booksAndScore.getValue();
-            usedBooks.addAll(currentBooks);
+            int libraryScore = library.getScore(this.scannedBooks, currentlyAvailableDays);
+            score += libraryScore;
             currentlyAvailableDays -= library.signUpTime;
         }
         this.score = score;
@@ -73,18 +65,25 @@ public class Solution implements Comparable<Solution> {
     }
 
     public void addLibrary(Library library) {
-        if (!libraries.contains(library)){
+        if (!libraries.contains(library)) {
             this.libraries.add(library);
+            for (Book book : library.books) {
+                this.scannedBooks.put(book.id, false);
+            }
             this.noLibraries++;
         }
     }
 
-    public int getSignupTime() {
-        int totalSignupTime = 0;
+    public void resetScans() {
+        this.scannedBooks.replaceAll((k, v) -> v = false);
+    }
+
+    public int getSignUpTime() {
+        int totalSignUpTime = 0;
         for (Library library : libraries) {
-            totalSignupTime += library.signUpTime;
+            totalSignUpTime += library.signUpTime;
         }
-        return totalSignupTime;
+        return totalSignUpTime;
     }
 
     public void cleanLibraries() {
@@ -99,7 +98,7 @@ public class Solution implements Comparable<Solution> {
         this.noLibraries = this.libraries.size();
 
         //remove libraries until sign up time constraint is met
-        while (this.getSignupTime() > this.days) {
+        while (this.getSignUpTime() > this.days) {
             this.getLibraries().remove(this.noLibraries - 1);
             this.noLibraries--;
         }

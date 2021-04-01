@@ -2,7 +2,7 @@ package shared;
 
 import java.util.Objects;
 
-public class Book {
+public class Book implements Comparable<Book>{
 
     int id;
     int score;
@@ -37,5 +37,10 @@ public class Book {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), score);
+    }
+
+    @Override
+    public int compareTo(Book o) {
+        return this.score - o.score;
     }
 }

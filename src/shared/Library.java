@@ -49,16 +49,15 @@ public class Library {
     //TODO: ACTUALLY TEST THIS, GOOD LUCK
     /**
      *
-     * @param alreadyScannedBooks books already scanned (they won't count towards the score)
      * @param daysLeft days left until the end
      * @return Pair with list of the library's books being scanned as the key and the total score as the value
      */
-    public Pair<List<Book>, Integer> getBooksAndScore(List<Book> alreadyScannedBooks, int daysLeft){
+    public int getScore(HashMap<Integer, Boolean> alreadyScannedBooks, int daysLeft){
         //get days available to scan books
         daysLeft-= signUpTime;
 
         if (daysLeft <= 0){
-            return new Pair<>(new ArrayList<>(), 0);
+            return 0;
         }
 
         //books scanned in the library
@@ -68,27 +67,28 @@ public class Library {
         int score = 0;
 
         //sort books by score (higher first)
-        books.sort(Comparator.comparing(b -> b.score, Collections.reverseOrder()));
-        List<Book> orderedLibraryBooks = new ArrayList<>(books);
+        sortBooks();
 
-        //remove all books previously scanned by other libraries, since their score wont count
-        orderedLibraryBooks.removeAll(alreadyScannedBooks);
 
         //calculate number of possible scans
         int numberOfPossibleScans = daysLeft * throughput;
 
+        List<Book> orderedLibraryBooks = new ArrayList<>(books);
+
+        int scannedBooks = 0;
         //choose book for every scan
-        for (int i = 0; i < numberOfPossibleScans; i++){
-            //break if there are no more books available
-            if (orderedLibraryBooks.isEmpty()) {
-                break;
-            }
+        while( scannedBooks < numberOfPossibleScans && orderedLibraryBooks.size() != 0){
             Book chosenBook = orderedLibraryBooks.remove(0);
-            this.chosenBooks.add(chosenBook);
-            usedBooks.add(chosenBook);
-            score+= chosenBook.score;
+            if(!alreadyScannedBooks.get(chosenBook.id)){
+                alreadyScannedBooks.put(chosenBook.id, true);
+                this.chosenBooks.add(chosenBook);
+                usedBooks.add(chosenBook);
+                score+= chosenBook.score;
+                scannedBooks++;
+            }
+
         }
-        return new Pair<>(usedBooks, score);
+        return score;
     }
 
     @Override

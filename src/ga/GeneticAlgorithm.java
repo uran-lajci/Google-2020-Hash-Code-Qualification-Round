@@ -55,6 +55,7 @@ public class GeneticAlgorithm {
     }
 
     public Solution getCurrentBestSolution() {
+        currentBestSolution.updateScore();
         return currentBestSolution;
     }
 

@@ -1,5 +1,9 @@
 package shared;
 
+import com.sun.javafx.binding.StringFormatter;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 import java.io.File;
@@ -136,8 +140,34 @@ public class Solution implements Comparable<Solution> {
         return Objects.hash(days, noLibraries, libraries);
     }
 
-    public void exportFile(String filePath){
+    public void exportFile(String fileName){
+        String filePath = "./" + fileName + ".txt";
         File newFile = new File(filePath);
+        try {
+            if (newFile.createNewFile()) {
+                FileWriter myWriter = new FileWriter(newFile);
+                String noLibraries = String.format("%d",this.noLibraries);
+                String librariesStr = "";
+                for(Library l : libraries){
+                    librariesStr += String.format("%d %d\n", l.id,l.chosenBooks.size());
+                    for(Book b : l.chosenBooks) {
+                        librariesStr += String.format("%d ", b.id);
+                    }
+                    librariesStr += String.format("\n");
+                }
+
+                String fileText = String.format("%s\n%s",noLibraries,librariesStr);
+
+                myWriter.write(fileText);
+                myWriter.close();
+                System.out.printf("\n\nFile created: " + newFile.getName());
+            } else {
+                System.out.println("File already exists.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public boolean isSolutionValid(){

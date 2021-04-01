@@ -39,20 +39,37 @@ public class SimulatedAnnealing {
 
             int i = 0;
             while (!validSolution) {
-                int index1 = (int) (currentSolution.getNoLibraries() * Math.random());
-                int index2 = (int) (ignoredLibraries.size() * Math.random());
 
-                Library lb1 = currentSolution.getLibraries().get(index1);
-                Library lb2 = ignoredLibraries.get(index2);
+                int index1, index2;
+                Library lb1, lb2;
+
+                index1 = (int) (currentSolution.getNoLibraries() * Math.random());
+                lb1 = currentSolution.getLibraries().get(index1);
+
+
+                if (ignoredLibraries.isEmpty()) {
+                    index2 = (int) (currentSolution.getNoLibraries() * Math.random());
+                    neighbor.setNewLibrary(index2, lb1);
+                    lb2 = currentSolution.getLibraries().get(index1);
+                } else {
+                    index2 = (int) (ignoredLibraries.size() * Math.random());
+                    lb2 = ignoredLibraries.get(index2);
+                    ignoredLibraries.add(index2, lb1);
+                }
 
                 neighbor.setNewLibrary(index1, lb2);
-                ignoredLibraries.add(index2, lb1);
+
 
                 if (neighbor.isSolutionValid() || i > 100) {
                     validSolution = true;
                 } else {
                     neighbor.setNewLibrary(index1, lb1);
-                    ignoredLibraries.add(index2, lb2);
+
+                    if (ignoredLibraries.isEmpty()) {
+                        neighbor.setNewLibrary(index2, lb2);
+                    } else {
+                        ignoredLibraries.add(index2, lb2);
+                    }
                     i++;
                 }
             }

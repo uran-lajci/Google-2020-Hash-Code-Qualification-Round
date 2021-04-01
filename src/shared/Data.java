@@ -1,5 +1,7 @@
 package shared;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Data {
@@ -12,6 +14,29 @@ public class Data {
         this.books = books;
         this.libraries = libraries;
         this.noDays = noDays;
+    }
+
+    public Data copyClass(){
+        List<Book> newBookList = new ArrayList<>();
+        Collections.copy(newBookList,this.books);
+
+        List<Library> newLibraryList = new ArrayList<>();
+        Collections.copy(newLibraryList,this.libraries);
+
+        for(int i=0; i<libraries.size();i++){
+            Collections.copy(newLibraryList.get(i).books,libraries.get(i).books);
+        }
+
+        return new Data(newBookList,newLibraryList,this.noDays);
+    }
+
+    public Library getLibraryByID(int id){
+        for(int i=0; i<libraries.size();i++){
+            if(libraries.get(i).id == id){
+                return libraries.get(i);
+            }
+        }
+        return null;
     }
 
     public String toString() { // This toString is a very bad idea with a lot of books and libraries

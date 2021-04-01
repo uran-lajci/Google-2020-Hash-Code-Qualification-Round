@@ -1,9 +1,7 @@
 import java.awt.*;
 
 import ga.GeneticAlgorithm;
-import shared.Data;
-import shared.FileReader;
-import shared.MainGreedyAlgorithm;
+import shared.*;
 
 import java.io.File;
 import java.util.Scanner;
@@ -84,8 +82,11 @@ public class Main {
                     System.out.println("time: " + timeElapsed2);
                     break;
                 case "3":
-                    //Insert algorithm 3
-                    System.out.printf("\n\nInsert algorithm 3!");
+                    long startTimeSA = System.nanoTime();
+                    Solution solutionSA = SimulatedAnnealing.simulatedAnnealingAlgorithm(data);
+                    long endTimeSA = System.nanoTime();
+                    long timeElapsedSA = (endTimeSA - startTimeSA) / 1000000;
+                    System.out.printf("\n\n Best score: %d points in %d seconds.", solutionSA.updateScore(), timeElapsedSA);
                     break;
                 case "0":
                     System.out.printf("\n\nEND!");

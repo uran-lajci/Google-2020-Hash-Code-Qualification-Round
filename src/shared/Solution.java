@@ -2,6 +2,11 @@ package shared;
 
 import java.util.*;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 public class Solution implements Comparable<Solution> {
 
     /**
@@ -129,5 +134,16 @@ public class Solution implements Comparable<Solution> {
     @Override
     public int hashCode() {
         return Objects.hash(days, noLibraries, libraries);
+    }
+
+    public void exportFile(String filePath){
+        File newFile = new File(filePath);
+    }
+
+    public boolean isSolutionValid(){
+        if(this.getSignUpTime()>days){
+            return false;
+        }
+       return true;
     }
 }

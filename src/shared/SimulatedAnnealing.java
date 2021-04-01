@@ -9,7 +9,7 @@ public class SimulatedAnnealing {
 
 
     public static Solution simulatedAnnealingAlgorithm(Data data) {
-        Data currentData = data.copyClass();
+        Data currentData = new Data(data);
         Solution currentSolution = new Solution(currentData.noDays);
 
         List<Library> ignoredLibraries = new ArrayList<>();
@@ -22,12 +22,12 @@ public class SimulatedAnnealing {
 
         while (libraryCount < currentData.libraries.size() && currentSolution.getSignUpTime() + currentData.libraries.get(libraryCount).signUpTime < currentData.noDays) {
             Library l = currentData.libraries.get(libraryCount);
-            currentSolution.addLibrary(l);
+            currentSolution.addLibrary(new Library(l));
             libraryCount++;
         }
 
         while (libraryCount < currentData.libraries.size()) {
-            ignoredLibraries.add(currentData.libraries.get(libraryCount));
+            ignoredLibraries.add(new Library(currentData.libraries.get(libraryCount)));
             libraryCount++;
         }
 
@@ -43,14 +43,14 @@ public class SimulatedAnnealing {
                 int index1, index2;
                 Library lb1, lb2;
 
+
                 index1 = (int) (currentSolution.getNoLibraries() * Math.random());
                 lb1 = currentSolution.getLibraries().get(index1);
-
 
                 if (ignoredLibraries.isEmpty()) {
                     index2 = (int) (currentSolution.getNoLibraries() * Math.random());
                     neighbor.setNewLibrary(index2, lb1);
-                    lb2 = currentSolution.getLibraries().get(index1);
+                    lb2 = currentSolution.getLibraries().get(index2);
                 } else {
                     index2 = (int) (ignoredLibraries.size() * Math.random());
                     lb2 = ignoredLibraries.get(index2);
@@ -88,6 +88,7 @@ public class SimulatedAnnealing {
             }
         }
 
+        bestSolution.updateScore();
         return bestSolution;
     }
 

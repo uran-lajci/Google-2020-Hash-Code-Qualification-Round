@@ -16,19 +16,21 @@ public class Data {
         this.noDays = noDays;
     }
 
-    public Data copyClass(){
-        List<Book> newBookList = new ArrayList<>();
-        for(Book b: books){
-            newBookList.add(new Book(b));
+    public Data(Data d){
+
+        this.books = new ArrayList<>();
+        for(Book b: d.books){
+            this.books.add(new Book(b));
         }
 
-        List<Library> newLibraryList = new ArrayList<>();
+        this.libraries = new ArrayList<>();
 
-        for(Library l: libraries){
-            newLibraryList.add(new Library(l));
+        for(Library l: d.libraries){
+            this.libraries.add(new Library(l));
         }
 
-        return new Data(newBookList,newLibraryList,this.noDays);
+        this.noDays = d.noDays;
+
     }
 
     public Library getLibraryByID(int id){

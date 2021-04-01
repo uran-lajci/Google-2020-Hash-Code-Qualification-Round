@@ -87,7 +87,7 @@ public class Main {
                     long endTimeSA = System.nanoTime();
                     long timeElapsedSA = (endTimeSA - startTimeSA) / 1000000;
                     solutionSA.exportFile("SOLUTION");
-                    System.out.printf("\n\n Best score: %d points in %d seconds.", solutionSA.updateScore(), timeElapsedSA);
+                    System.out.printf("\n\n Best score: %d points in %d milliseconds.", solutionSA.updateScore(), timeElapsedSA);
                     break;
                 case "0":
                     System.out.printf("\n\nEND!");

@@ -26,6 +26,23 @@ public class Library {
         this.chosenBooks = new ArrayList<Book>();
     }
 
+    public Library(Library l){
+        this.id=l.id;
+        this.bookNumber = l.bookNumber;
+        this.signUpTime = l.signUpTime;
+        this.throughput = l.throughput;
+        this.books = new ArrayList<>();
+        this.chosenBooks = new ArrayList<>();
+
+        for(Book b : l.books){
+            this.books.add(new Book(b));
+        }
+
+        for(Book cb : l.chosenBooks){
+            this.chosenBooks.add(new Book(cb));
+        }
+    }
+
     public void calculateScore(){
 
         int score = 0;

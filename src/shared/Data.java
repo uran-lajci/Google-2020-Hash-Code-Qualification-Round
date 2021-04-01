@@ -18,13 +18,14 @@ public class Data {
 
     public Data copyClass(){
         List<Book> newBookList = new ArrayList<>();
-        Collections.copy(newBookList,this.books);
+        for(Book b: books){
+            newBookList.add(new Book(b));
+        }
 
         List<Library> newLibraryList = new ArrayList<>();
-        Collections.copy(newLibraryList,this.libraries);
 
-        for(int i=0; i<libraries.size();i++){
-            Collections.copy(newLibraryList.get(i).books,libraries.get(i).books);
+        for(Library l: libraries){
+            newLibraryList.add(new Library(l));
         }
 
         return new Data(newBookList,newLibraryList,this.noDays);

@@ -14,6 +14,11 @@ public class Book implements Comparable<Book>{
         this.score = score;
     }
 
+    public Book(Book b){
+        this.id = b.id;
+        this.score = b.score;
+    }
+
     public int getId() {
         return id;
     }

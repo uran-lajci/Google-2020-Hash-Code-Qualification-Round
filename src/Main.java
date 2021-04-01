@@ -101,7 +101,7 @@ public class Main {
 
     public static void printMenu(){
         System.out.printf("\n\n======================= MENU =======================\n\n");
-        System.out.printf("1 - Genetic Algorithm\n2 - Greedy Algorithm 2\n3 - Algorithm 3\n0 - Exit");
+        System.out.printf("1 - Genetic Algorithm\n2 - Greedy Algorithm\n3 - Simulated Annealing\n0 - Exit");
         System.out.printf("\n\nPlease select one option:");
     }
 

@@ -104,6 +104,13 @@ public class Solution implements Comparable<Solution> {
         }
     }
 
+    public void setNewLibrary(int index, Library library){
+        for (Book book: library.books){
+            this.scannedBooks.put(book.id, false);
+        }
+        this.libraries.set(index, library);
+    }
+
     @Override
     public int compareTo(Solution o) {
         return this.score - o.score;

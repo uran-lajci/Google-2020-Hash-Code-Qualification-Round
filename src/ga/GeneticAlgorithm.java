@@ -210,7 +210,7 @@ public class GeneticAlgorithm {
                 if (mutationType.equalsIgnoreCase("switch") || individual.getNoLibraries() == 1) {
                     int newLibraryPosition = random.nextInt(this.data.libraries.size());
                     Library newLibrary = this.data.libraries.get(newLibraryPosition);
-                    individual.getLibraries().set(i, newLibrary);
+                    individual.setNewLibrary(i, newLibrary);
                     individual.cleanLibraries();
                 } else {
                     if (i == individual.getNoLibraries() - 1) {

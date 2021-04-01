@@ -3,6 +3,7 @@ import java.awt.*;
 import ga.GeneticAlgorithm;
 import shared.Data;
 import shared.FileReader;
+import shared.MainGreedyAlgorithm;
 
 import java.io.File;
 import java.util.Scanner;
@@ -22,7 +23,6 @@ public class Main {
         String file = dialog.getFile();
         dialog.dispose();
         Data data = reader.readFile(new File(file));
-
 
         System.out.println("File " + file + " read!\n");
 
@@ -76,6 +76,12 @@ public class Main {
                 case "2":
                     //Insert algorithm 2
                     System.out.printf("\n\nInsert algorithm 2!");
+                    System.out.println("greedy");
+                    long startTime2 = System.nanoTime();
+                    MainGreedyAlgorithm.greedyAlgorithm(new File(file), data.noDays);
+                    long endTime2 = System.nanoTime();
+                    long timeElapsed2 = (endTime2 - startTime2) / 1000000;
+                    System.out.println("time: " + timeElapsed2);
                     break;
                 case "3":
                     //Insert algorithm 3
@@ -94,7 +100,7 @@ public class Main {
 
     public static void printMenu(){
         System.out.printf("\n\n======================= MENU =======================\n\n");
-        System.out.printf("1 - Genetic Algorithm\n2 - Algorithm 2\n3 - Algorithm 3\n0 - Exit");
+        System.out.printf("1 - Genetic Algorithm\n2 - Greedy Algorithm 2\n3 - Algorithm 3\n0 - Exit");
         System.out.printf("\n\nPlease select one option:");
     }
 

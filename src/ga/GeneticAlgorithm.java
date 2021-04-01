@@ -99,7 +99,7 @@ public class GeneticAlgorithm {
                 if (currentSolution.getNoLibraries() == auxList.size()) {
                     this.activePopulation.add(currentSolution);
                     currentSolution = new Solution(days);
-                    
+
                 }
                 Collections.shuffle(auxList);
                 index = 0;

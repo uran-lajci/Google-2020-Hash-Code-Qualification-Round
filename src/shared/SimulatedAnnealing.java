@@ -35,7 +35,7 @@ public class SimulatedAnnealing {
 
         for (double t = temperature; t > 1; t *= coolingFactor) {
             Solution neighbor = new Solution(currentSolution);
-            Boolean validSolution = false;
+            boolean validSolution = false;
 
             int i = 0;
             while (!validSolution) {

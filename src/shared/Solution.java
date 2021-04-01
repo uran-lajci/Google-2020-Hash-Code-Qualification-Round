@@ -144,7 +144,7 @@ public class Solution implements Comparable<Solution> {
         String filePath = "./" + fileName + ".txt";
         File newFile = new File(filePath);
         try {
-            if (newFile.createNewFile()) {
+            //if (newFile.createNewFile()) {
                 FileWriter myWriter = new FileWriter(newFile);
                 String noLibraries = String.format("%d",this.noLibraries);
                 String librariesStr = "";
@@ -161,9 +161,9 @@ public class Solution implements Comparable<Solution> {
                 myWriter.write(fileText);
                 myWriter.close();
                 System.out.printf("\n\nFile created: " + newFile.getName());
-            } else {
-                System.out.println("File already exists.");
-            }
+            //} else {
+            //    System.out.println("File already exists.");
+            //}
         } catch (IOException e) {
             e.printStackTrace();
         }

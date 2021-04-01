@@ -78,15 +78,11 @@ public class Library {
             return 0;
         }
 
-        //books scanned in the library
-        List<Book> usedBooks = new ArrayList<>();
-
         //total score of the scanned books
         int score = 0;
 
         //sort books by score (higher first)
         sortBooks();
-
 
         //calculate number of possible scans
         int numberOfPossibleScans = daysLeft * throughput;
@@ -100,7 +96,6 @@ public class Library {
             if(!alreadyScannedBooks.get(chosenBook.id)){
                 alreadyScannedBooks.put(chosenBook.id, true);
                 this.chosenBooks.add(chosenBook);
-                usedBooks.add(chosenBook);
                 score+= chosenBook.score;
                 scannedBooks++;
             }

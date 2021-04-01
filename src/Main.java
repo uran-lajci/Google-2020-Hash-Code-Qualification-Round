@@ -67,7 +67,7 @@ public class Main {
                     long timeElapsed = (endTime - startTime) / 1000000;
 
                     System.out.println("Finished evolution.\n");
-
+                    ga.getCurrentBestSolution().exportFile("SOLUTION");
                     String result = String.format("Best score: %d points in %d milliseconds.", ga.getCurrentBestSolution().getScore(), timeElapsed);
                     System.out.println(result);
                     break;
@@ -86,6 +86,7 @@ public class Main {
                     Solution solutionSA = SimulatedAnnealing.simulatedAnnealingAlgorithm(data);
                     long endTimeSA = System.nanoTime();
                     long timeElapsedSA = (endTimeSA - startTimeSA) / 1000000;
+                    solutionSA.exportFile("SOLUTION");
                     System.out.printf("\n\n Best score: %d points in %d seconds.", solutionSA.updateScore(), timeElapsedSA);
                     break;
                 case "0":

@@ -53,6 +53,7 @@ public class Library {
      * @return Pair with list of the library's books being scanned as the key and the total score as the value
      */
     public int getScore(HashMap<Integer, Boolean> alreadyScannedBooks, int daysLeft){
+        this.chosenBooks = new ArrayList<>();
         //get days available to scan books
         daysLeft-= signUpTime;
 

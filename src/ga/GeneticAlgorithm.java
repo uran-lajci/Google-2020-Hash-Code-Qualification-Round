@@ -70,8 +70,6 @@ public class GeneticAlgorithm {
                 bestInPopulation = individual;
             }
         }
-        String res = String.format("Generation %d best score: %d points", this.getCurrentGeneration(), bestInPopulation.getScore());
-        System.out.println(res);
         if (this.currentBestSolution.getScore() < bestInPopulation.getScore()) {
             this.currentBestSolution = bestInPopulation;
         }
@@ -167,9 +165,6 @@ public class GeneticAlgorithm {
         int minimumParentSize;
         Solution[] children = new Solution[2];
 
-        List<Library> child1 = new ArrayList<>();
-        List<Library> child2 = new ArrayList<>();
-
         if (parent1.getNoLibraries() < parent2.getNoLibraries()) {
             minimumParentSize = parent1.getNoLibraries();
         } else {
@@ -188,8 +183,11 @@ public class GeneticAlgorithm {
             children[0].addLibrary(parent1Libraries.get(i));
             children[1].addLibrary(parent2Libraries.get(i));
         }
-        for (int i = crossoverPoint; i < minimumParentSize; i++) {
+        for (int i = crossoverPoint; i < parent2Libraries.size(); i++) {
             children[0].addLibrary(parent2Libraries.get(i));
+        }
+
+        for (int i = crossoverPoint; i < parent1Libraries.size(); i++) {
             children[1].addLibrary(parent1Libraries.get(i));
         }
 

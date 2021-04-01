@@ -10,7 +10,7 @@ public class FileReader {
     public FileReader(){
     }
 
-    public Data readFile(File file) throws Exception{ // throw every exception cause i'm lazy
+    public static Data readFile(File file) throws Exception{ // throw every exception cause i'm lazy
         List<Book> books = new ArrayList<>();
         List<Library> libraries = new ArrayList<>();
 

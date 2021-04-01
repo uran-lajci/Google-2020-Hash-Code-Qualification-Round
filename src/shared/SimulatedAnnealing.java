@@ -4,7 +4,7 @@ import java.util.*;
 
 public class SimulatedAnnealing {
 
-    private static double temperature = 1000;
+    private static double temperature = 1000000000;
     private static double coolingFactor = 0.990;
 
 
@@ -20,7 +20,7 @@ public class SimulatedAnnealing {
         int libraryCount = 0;
 
 
-        while (currentSolution.getSignUpTime() + currentData.libraries.get(libraryCount).signUpTime < currentData.noDays && libraryCount < currentData.libraries.size()) {
+        while (libraryCount < currentData.libraries.size() && currentSolution.getSignUpTime() + currentData.libraries.get(libraryCount).signUpTime < currentData.noDays) {
             Library l = currentData.libraries.get(libraryCount);
             currentSolution.addLibrary(l);
             libraryCount++;

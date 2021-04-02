@@ -68,11 +68,11 @@ public class Main {
 
                     System.out.println("Finished execution.\n");
 
-                    System.out.printf("\n\nInsert the solution file name:");
+                    System.out.printf("\nInsert the solution file name:");
                     input = scan.nextLine();
                     ga.getCurrentBestSolution().exportFile(input);
 
-                    String result = String.format("Best score: %d points in %d milliseconds.", ga.getCurrentBestSolution().getScore(), timeElapsed);
+                    String result = String.format("\nBest score: %d points in %d milliseconds.", ga.getCurrentBestSolution().getScore(), timeElapsed);
                     System.out.println(result);
                     break;
                 case "2":

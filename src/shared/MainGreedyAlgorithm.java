@@ -1,9 +1,5 @@
 package shared;
 
-import shared.Book;
-import shared.Data;
-import shared.FileReader;
-import shared.Library;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -63,14 +59,9 @@ public class MainGreedyAlgorithm {
 
                 for (int i = 0; i < lib.books.size() && i <= bookSendCapacity; i++) {
                     lib.chosenBooks.add(lib.books.get(i)); //adding books to be scanned from chosen library to the chosen books list
-//                    System.out.println("chosen book: " + lib.chosenBooks.get(i));
                 }
             }
 
-        }
-        System.out.println("\nused books");
-        for (Book usedBook : usedBooks) {
-            System.out.println(usedBook + " ");
         }
 
         int score = 0;

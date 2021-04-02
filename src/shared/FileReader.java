@@ -46,7 +46,10 @@ public class FileReader {
             for (int j = 0; j < noBooksLibrary; j++){
                 library.books.add(books.get(Integer.parseInt(libraryBooks[j])));
             }
+            library.calculateScore();
+            library.sortBooks();
             libraries.add(library);
+
         }
 
         reader.close();

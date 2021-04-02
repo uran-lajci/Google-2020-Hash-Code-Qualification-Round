@@ -1,6 +1,6 @@
 package shared;
 
-import com.sun.javafx.binding.StringFormatter;
+//import com.sun.javafx.binding.StringFormatter;
 
 import java.io.FileWriter;
 import java.io.IOException;

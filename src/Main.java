@@ -72,14 +72,14 @@ public class Main {
                     System.out.println(result);
                     break;
                 case "2":
-                    //Insert algorithm 2
-                    System.out.printf("\n\nInsert algorithm 2!");
-                    System.out.println("greedy");
+                    System.out.printf("greedy");
                     long startTime2 = System.nanoTime();
                     MainGreedyAlgorithm.greedyAlgorithm(new File(file), data.noDays);
                     long endTime2 = System.nanoTime();
                     long timeElapsed2 = (endTime2 - startTime2) / 1000000;
-                    System.out.println("time: " + timeElapsed2);
+//                    System.out.println("time: " + timeElapsed2);
+                    System.out.printf("in :" + timeElapsed2 + " " + "milliseconds");
+
                     break;
                 case "3":
                     long startTimeSA = System.nanoTime();

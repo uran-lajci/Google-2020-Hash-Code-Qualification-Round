@@ -8,14 +8,14 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         FileReader reader = new FileReader();
         System.out.printf("======================= BOOK SCANNING =======================\n\n");
 
         System.out.printf("Please choose the input file!\n\n");
 
 
-        FileDialog dialog = new FileDialog((Frame)null, "Select File to Open");
+        FileDialog dialog = new FileDialog((Frame) null, "Select File to Open");
         dialog.setMode(FileDialog.LOAD);
         dialog.setVisible(true);
         String file = dialog.getFile();
@@ -59,7 +59,7 @@ public class Main {
 
                     System.out.println("Population generated. Starting evolution...");
 
-                    while (ga.getCurrentGeneration() < maxSteps){
+                    while (ga.getCurrentGeneration() < maxSteps) {
                         ga.algorithmStep();
                     }
 
@@ -100,7 +100,7 @@ public class Main {
                     double coolingFactor = Double.parseDouble(inputSA);
 
                     long startTimeSA = System.nanoTime();
-                    Solution solutionSA = SimulatedAnnealing.simulatedAnnealingAlgorithm(data,temperature,coolingFactor);
+                    Solution solutionSA = SimulatedAnnealing.simulatedAnnealingAlgorithm(data, temperature, coolingFactor);
                     long endTimeSA = System.nanoTime();
                     long timeElapsedSA = (endTimeSA - startTimeSA) / 1000000;
                     System.out.println("\nFinished execution.\n");
@@ -109,6 +109,41 @@ public class Main {
                     String saFileName = scan.nextLine();
                     solutionSA.exportFile(saFileName);
                     System.out.printf("\n\nBest score: %d points in %d milliseconds.", solutionSA.getScore(), timeElapsedSA);
+                    break;
+
+                case "4":
+                    System.out.printf("\n\nInsert the maximum number for the neighbor search:");
+                    String inputHC = scan.nextLine();
+                    int maxNeighbor = Integer.parseInt(inputHC);
+
+
+                    long startTimeHC = System.nanoTime();
+                    Solution solutionHC = HillClimbing.hillClimbingAlgorithm(data, maxNeighbor);
+                    long endTimeHC = System.nanoTime();
+                    long timeElapsedHC = (endTimeHC - startTimeHC) / 1000000;
+                    System.out.println("\nFinished execution.\n");
+
+                    System.out.printf("\nInsert the solution file name:");
+                    String hcFileName = scan.nextLine();
+                    solutionHC.exportFile(hcFileName);
+                    System.out.printf("\n\nBest score: %d points in %d milliseconds.", solutionHC.getScore(), timeElapsedHC);
+                    break;
+                case "5":
+                    System.out.printf("\n\nInsert the desired neighborhood size:");
+                    String inputHCSA = scan.nextLine();
+                    int neighborhoodSize = Integer.parseInt(inputHCSA);
+
+
+                    long startTimeHCSA = System.nanoTime();
+                    Solution solutionHCSA = HillClimbingSteepestAscent.hillClimbingSteepestAscentAlgorithm(data, neighborhoodSize);
+                    long endTimeHCSA = System.nanoTime();
+                    long timeElapsedHCSA = (endTimeHCSA - startTimeHCSA) / 1000000;
+                    System.out.println("\nFinished execution.\n");
+
+                    System.out.printf("\nInsert the solution file name:");
+                    String hcsaFileName = scan.nextLine();
+                    solutionHCSA.exportFile(hcsaFileName);
+                    System.out.printf("\n\nBest score: %d points in %d milliseconds.", solutionHCSA.getScore(), timeElapsedHCSA);
                     break;
                 case "0":
                     System.out.printf("\n\nEND!");
@@ -121,9 +156,9 @@ public class Main {
         } while (!choice.equals("0"));
     }
 
-    public static void printMenu(){
+    public static void printMenu() {
         System.out.printf("\n\n======================= MENU =======================\n\n");
-        System.out.printf("1 - Genetic Algorithm\n2 - Greedy Algorithm\n3 - Simulated Annealing Algorithm\n0 - Exit");
+        System.out.printf("1 - Genetic Algorithm\n2 - Non-Meta Heuristic Greedy Algorithm\n3 - Simulated Annealing Algorithm\n4 - Hill Climbing Algorithm\n5 - Steepest-Ascent Hill Climbing Algorithm\n0 - Exit");
         System.out.printf("\n\nPlease select one option:");
     }
 }

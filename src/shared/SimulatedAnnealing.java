@@ -5,7 +5,7 @@ import java.util.*;
 public class SimulatedAnnealing {
 
     private static double temperature = 1000000000;
-    private static double coolingFactor = 0.990;
+    private static double coolingFactor = 0.995;
 
 
     public static Solution simulatedAnnealingAlgorithm(Data data) {
@@ -96,7 +96,7 @@ public class SimulatedAnnealing {
         if (score2 > score1) {
             return 1;
         }
-        return Math.exp((score1 - score2) / temperature);
+        return Math.exp((score2-score1) / temperature);
     }
 
 }

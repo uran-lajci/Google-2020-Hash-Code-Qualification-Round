@@ -113,8 +113,8 @@ public class Solution implements Comparable<Solution> {
         }
     }
 
-    public void setNewLibrary(int index, Library library){
-        for (Book book: library.books){
+    public void setNewLibrary(int index, Library library) {
+        for (Book book : library.books) {
             this.scannedBooks.put(book.id, false);
         }
         this.libraries.set(index, library);
@@ -140,40 +140,36 @@ public class Solution implements Comparable<Solution> {
         return Objects.hash(days, noLibraries, libraries);
     }
 
-    public void exportFile(String fileName){
+    public void exportFile(String fileName) {
         String filePath = "./" + fileName + ".txt";
         File newFile = new File(filePath);
         try {
-            //if (newFile.createNewFile()) {
-                FileWriter myWriter = new FileWriter(newFile);
-                String noLibraries = String.format("%d",this.noLibraries);
-                String librariesStr = "";
-                for(Library l : libraries){
-                    librariesStr += String.format("%d %d\n", l.id,l.chosenBooks.size());
-                    for(Book b : l.chosenBooks) {
-                        librariesStr += String.format("%d ", b.id);
-                    }
-                    librariesStr += String.format("\n");
+            FileWriter myWriter = new FileWriter(newFile);
+            String noLibraries = String.format("%d", this.noLibraries);
+            String librariesStr = "";
+            for (Library l : libraries) {
+                librariesStr += String.format("%d %d\n", l.id, l.chosenBooks.size());
+                for (Book b : l.chosenBooks) {
+                    librariesStr += String.format("%d ", b.id);
                 }
+                librariesStr += String.format("\n");
+            }
 
-                String fileText = String.format("%s\n%s",noLibraries,librariesStr);
+            String fileText = String.format("%s\n%s", noLibraries, librariesStr);
 
-                myWriter.write(fileText);
-                myWriter.close();
-                System.out.printf("\n\nFile created: " + newFile.getName());
-            //} else {
-            //    System.out.println("File already exists.");
-            //}
+            myWriter.write(fileText);
+            myWriter.close();
+            System.out.printf("\n\nFile created: " + newFile.getName());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    public boolean isSolutionValid(){
-        if(this.getSignUpTime()>days){
+    public boolean isSolutionValid() {
+        if (this.getSignUpTime() > days) {
             return false;
         }
-       return true;
+        return true;
     }
 }

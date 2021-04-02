@@ -66,7 +66,7 @@ public class Main {
                     long endTime = System.nanoTime();
                     long timeElapsed = (endTime - startTime) / 1000000;
 
-                    System.out.println("Finished evolution.\n");
+                    System.out.println("Finished execution.\n");
                     ga.getCurrentBestSolution().exportFile("SOLUTION");
                     String result = String.format("Best score: %d points in %d milliseconds.", ga.getCurrentBestSolution().getScore(), timeElapsed);
                     System.out.println(result);
@@ -74,11 +74,11 @@ public class Main {
                 case "2":
                     System.out.printf("greedy");
                     long startTime2 = System.nanoTime();
-                    MainGreedyAlgorithm.greedyAlgorithm(new File(file), data.noDays);
+                    int score = MainGreedyAlgorithm.greedyAlgorithm(new File(file), data.noDays);
                     long endTime2 = System.nanoTime();
                     long timeElapsed2 = (endTime2 - startTime2) / 1000000;
-//                    System.out.println("time: " + timeElapsed2);
-                    System.out.printf("in :" + timeElapsed2 + " " + "milliseconds");
+                    System.out.println("Finished execution.\n");
+                    System.out.printf("Best score: %d points in %d milliseconds.", score, timeElapsed2);
 
                     break;
                 case "3":
@@ -86,6 +86,7 @@ public class Main {
                     Solution solutionSA = SimulatedAnnealing.simulatedAnnealingAlgorithm(data);
                     long endTimeSA = System.nanoTime();
                     long timeElapsedSA = (endTimeSA - startTimeSA) / 1000000;
+                    System.out.println("Finished execution.\n");
                     solutionSA.exportFile("SOLUTION");
                     System.out.printf("\n\nBest score: %d points in %d milliseconds.", solutionSA.updateScore(), timeElapsedSA);
                     break;

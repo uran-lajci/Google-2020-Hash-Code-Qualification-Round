@@ -11,7 +11,7 @@ public class MainGreedyAlgorithm {
     public static List<Library> chosenLibraries = new ArrayList<Library>();
     static List<Book> usedBooks = new ArrayList<>();
 
-    public static void greedyAlgorithm(File file, int deadline) throws Exception {
+    public static int greedyAlgorithm(File file, int deadline) throws Exception {
 
         FileReader reader = new FileReader();
         Data data = reader.readFile(file);
@@ -71,7 +71,7 @@ public class MainGreedyAlgorithm {
             }
             System.out.println();
         }
-        System.out.println("score = " + score);
+        return score;
 
     }
 }

@@ -4,11 +4,8 @@ import java.util.*;
 
 public class SimulatedAnnealing {
 
-    private static double temperature = 1000000000;
-    private static double coolingFactor = 0.995;
 
-
-    public static Solution simulatedAnnealingAlgorithm(Data data) {
+    public static Solution simulatedAnnealingAlgorithm(Data data, double temperature, double coolingFactor) {
         Data currentData = new Data(data);
         Solution currentSolution = new Solution(currentData.noDays);
 

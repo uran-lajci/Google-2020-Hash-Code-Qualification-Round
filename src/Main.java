@@ -67,27 +67,47 @@ public class Main {
                     long timeElapsed = (endTime - startTime) / 1000000;
 
                     System.out.println("Finished execution.\n");
-                    ga.getCurrentBestSolution().exportFile("SOLUTION");
+
+                    System.out.printf("\n\nInsert the solution file name:");
+                    input = scan.nextLine();
+                    ga.getCurrentBestSolution().exportFile(input);
+
                     String result = String.format("Best score: %d points in %d milliseconds.", ga.getCurrentBestSolution().getScore(), timeElapsed);
                     System.out.println(result);
                     break;
                 case "2":
-                    System.out.printf("greedy");
+
                     long startTime2 = System.nanoTime();
                     int score = MainGreedyAlgorithm.greedyAlgorithm(new File(file), data.noDays);
                     long endTime2 = System.nanoTime();
                     long timeElapsed2 = (endTime2 - startTime2) / 1000000;
                     System.out.println("Finished execution.\n");
+
+                    System.out.printf("\n\nInsert the solution file name:");
+                    String greedyFileName = scan.nextLine();
+
+
                     System.out.printf("Best score: %d points in %d milliseconds.", score, timeElapsed2);
 
                     break;
                 case "3":
+                    System.out.printf("\n\nInsert the initial temperature:");
+                    String inputSA = scan.nextLine();
+                    double temperature = Double.parseDouble(inputSA);
+
+                    System.out.print("\nInsert the cooling factor:");
+                    inputSA = scan.nextLine();
+                    double coolingFactor = Double.parseDouble(inputSA);
+
                     long startTimeSA = System.nanoTime();
-                    Solution solutionSA = SimulatedAnnealing.simulatedAnnealingAlgorithm(data);
+                    Solution solutionSA = SimulatedAnnealing.simulatedAnnealingAlgorithm(data,temperature,coolingFactor);
                     long endTimeSA = System.nanoTime();
                     long timeElapsedSA = (endTimeSA - startTimeSA) / 1000000;
-                    System.out.println("Finished execution.\n");
-                    solutionSA.exportFile("SOLUTION");
+                    System.out.println("\nFinished execution.\n");
+
+                    System.out.printf("\nInsert the solution file name:");
+                    String saFileName = scan.nextLine();
+                    solutionSA.exportFile(saFileName);
                     System.out.printf("\n\nBest score: %d points in %d milliseconds.", solutionSA.updateScore(), timeElapsedSA);
                     break;
                 case "0":
@@ -103,19 +123,7 @@ public class Main {
 
     public static void printMenu(){
         System.out.printf("\n\n======================= MENU =======================\n\n");
-        System.out.printf("1 - Genetic Algorithm\n2 - Greedy Algorithm\n3 - Simulated Annealing\n0 - Exit");
+        System.out.printf("1 - Genetic Algorithm\n2 - Greedy Algorithm\n3 - Simulated Annealing Algorithm\n0 - Exit");
         System.out.printf("\n\nPlease select one option:");
-    }
-
-    public static void printAlgorithm1(){
-        // Insert the prints for algorithm 1
-    }
-
-    public static void printAlgorithm2(){
-        // Insert the prints for algorithm 2
-    }
-
-    public static void printAlgorithm3(){
-        // Insert the prints for algorithm 3
     }
 }

@@ -18,7 +18,7 @@ public class FileReader {
 
         String line = reader.nextLine();
 
-        // First line contains the number of nooks, libraries and days
+        // First line contains the number of books, libraries and days
         String[] values = line.trim().split(" ");
 
         int noBooks = Integer.parseInt(values[0]);

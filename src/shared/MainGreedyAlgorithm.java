@@ -11,12 +11,9 @@ public class MainGreedyAlgorithm {
     public static List<Library> chosenLibraries = new ArrayList<Library>();
     static List<Book> usedBooks = new ArrayList<>();
 
-    public static int greedyAlgorithm(File file, int deadline) throws Exception {
+    public static Solution greedyAlgorithm(Data readData, int deadline) throws Exception {
 
-        FileReader reader = new FileReader();
-        Data data = reader.readFile(file);
-        FileReader.readFile(file);
-
+        Data data = new Data(readData);
 
         data.libraries.sort(new Comparator<Library>() {
             @Override
@@ -64,14 +61,11 @@ public class MainGreedyAlgorithm {
 
         }
 
-        int score = 0;
+        Solution solution = new Solution(data.noDays);
         for (Library lib : chosenLibraries) {
-            for (Book book : lib.chosenBooks) {
-                score += book.score;
-            }
-            System.out.println();
+            solution.addLibrary(lib);
         }
-        return score;
-
+        solution.updateScore();
+        return solution;
     }
 }

@@ -78,16 +78,16 @@ public class Main {
                 case "2":
 
                     long startTime2 = System.nanoTime();
-                    int score = MainGreedyAlgorithm.greedyAlgorithm(new File(file), data.noDays);
+                    Solution solution = MainGreedyAlgorithm.greedyAlgorithm(data, data.noDays);
                     long endTime2 = System.nanoTime();
                     long timeElapsed2 = (endTime2 - startTime2) / 1000000;
                     System.out.println("Finished execution.\n");
 
-                    System.out.printf("\n\nInsert the solution file name:");
+                    System.out.printf("\nInsert the solution file name:");
                     String greedyFileName = scan.nextLine();
+                    solution.exportFile(greedyFileName);
 
-
-                    System.out.printf("Best score: %d points in %d milliseconds.", score, timeElapsed2);
+                    System.out.printf("Best score: %d points in %d milliseconds.", solution.getScore(), timeElapsed2);
 
                     break;
                 case "3":
@@ -108,7 +108,7 @@ public class Main {
                     System.out.printf("\nInsert the solution file name:");
                     String saFileName = scan.nextLine();
                     solutionSA.exportFile(saFileName);
-                    System.out.printf("\n\nBest score: %d points in %d milliseconds.", solutionSA.updateScore(), timeElapsedSA);
+                    System.out.printf("\n\nBest score: %d points in %d milliseconds.", solutionSA.getScore(), timeElapsedSA);
                     break;
                 case "0":
                     System.out.printf("\n\nEND!");

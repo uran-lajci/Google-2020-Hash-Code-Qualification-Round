@@ -38,13 +38,13 @@ public class GeneticAlgorithm {
         this.maxSteps = maxSteps;
         this.procreationFactor = procreationFactor;
         this.mutationRate = mutationRate;
-        this.data = data;
+        this.data = new Data(data);
         this.mutationType = mutationType;
         this.currentGeneration = 0;
         this.minimumPopulationSize = minimumPopulationSize;
 
         this.activePopulation = new ArrayList<>();
-        this.currentBestSolution = new Solution(data.noDays);
+        this.currentBestSolution = new Solution(this.data.noDays);
 
         generateInitialPopulation();
 

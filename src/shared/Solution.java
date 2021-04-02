@@ -36,7 +36,10 @@ public class Solution implements Comparable<Solution> {
 
     public Solution(Solution solution) {
         this.days = solution.days;
-        this.libraries = new ArrayList<>(solution.libraries);
+        this.libraries = new ArrayList<>();
+        for(Library l: solution.libraries){
+            this.libraries.add(l);
+        }
         this.noLibraries = solution.noLibraries;
         this.scannedBooks = new HashMap<>(solution.scannedBooks);
         this.score = solution.score;
@@ -75,7 +78,7 @@ public class Solution implements Comparable<Solution> {
 
     public void addLibrary(Library library) {
         if (!libraries.contains(library)) {
-            this.libraries.add(library);
+            this.libraries.add(new Library(library));
             for (Book book : library.books) {
                 this.scannedBooks.put(book.id, false);
             }
@@ -117,7 +120,7 @@ public class Solution implements Comparable<Solution> {
         for (Book book : library.books) {
             this.scannedBooks.put(book.id, false);
         }
-        this.libraries.set(index, library);
+        this.libraries.set(index, new Library(library));
     }
 
     @Override

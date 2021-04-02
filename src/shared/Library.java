@@ -70,6 +70,8 @@ public class Library {
      * @return Pair with list of the library's books being scanned as the key and the total score as the value
      */
     public int getScore(HashMap<Integer, Boolean> alreadyScannedBooks, int daysLeft){
+
+
         this.chosenBooks = new ArrayList<>();
         //get days available to scan books
         daysLeft-= signUpTime;
@@ -85,7 +87,10 @@ public class Library {
         sortBooks();
 
         //calculate number of possible scans
-        int numberOfPossibleScans = daysLeft * throughput;
+        long numberOfPossibleScans = daysLeft * throughput;
+        if (numberOfPossibleScans < 0){
+            numberOfPossibleScans = Long.MAX_VALUE;
+        }
 
         List<Book> orderedLibraryBooks = new ArrayList<>(books);
 
@@ -101,6 +106,7 @@ public class Library {
             }
 
         }
+
         return score;
     }
 

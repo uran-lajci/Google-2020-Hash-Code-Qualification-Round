@@ -53,11 +53,13 @@ public class SimulatedAnnealing {
 
                 // Indexes to switch libraries
                 int index1, index2;
-                Library lb1, lb2;
+                Library lb1, lb2,lb1Copy,lb2Copy;
 
                 // First index is from the current solution
                 index1 = (int) (currentSolution.getNoLibraries() * Math.random());
                 lb1 = currentSolution.getLibraries().get(index1);
+
+                lb1Copy = new Library(lb1);
 
                 // Second index is from the ignored list if it not empty
                 // Or from the current solution if the ignored list is empty
@@ -71,8 +73,10 @@ public class SimulatedAnnealing {
                     ignoredLibraries.add(index2, lb1);
                 }
 
+                lb2Copy = new Library(lb2);
+
                 // Switch the libraries
-                neighbor.setNewLibrary(index1, lb2);
+                neighbor.setNewLibrary(index1, lb2Copy);
 
 
                 // If the solution is valid or its the 100 try the cycle stops
@@ -81,7 +85,7 @@ public class SimulatedAnnealing {
                 } else {
 
                     // If the solution is not valid changes must be reverted
-                    neighbor.setNewLibrary(index1, lb1);
+                    neighbor.setNewLibrary(index1, lb1Copy);
 
                     if (ignoredLibraries.isEmpty()) {
                         neighbor.setNewLibrary(index2, lb2);

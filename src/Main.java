@@ -128,6 +128,23 @@ public class Main {
                     solutionHC.exportFile(hcFileName);
                     System.out.printf("\n\nBest score: %d points in %d milliseconds.", solutionHC.getScore(), timeElapsedHC);
                     break;
+                case "5":
+                    System.out.printf("\n\nInsert the desired neighborhood size:");
+                    String inputHCSA = scan.nextLine();
+                    int neighborhoodSize = Integer.parseInt(inputHCSA);
+
+
+                    long startTimeHCSA = System.nanoTime();
+                    Solution solutionHCSA = HillClimbingSteepestAscent.hillClimbingSteepestAscentAlgorithm(data, neighborhoodSize);
+                    long endTimeHCSA = System.nanoTime();
+                    long timeElapsedHCSA = (endTimeHCSA - startTimeHCSA) / 1000000;
+                    System.out.println("\nFinished execution.\n");
+
+                    System.out.printf("\nInsert the solution file name:");
+                    String hcsaFileName = scan.nextLine();
+                    solutionHCSA.exportFile(hcsaFileName);
+                    System.out.printf("\n\nBest score: %d points in %d milliseconds.", solutionHCSA.getScore(), timeElapsedHCSA);
+                    break;
                 case "0":
                     System.out.printf("\n\nEND!");
                     break;
@@ -141,7 +158,7 @@ public class Main {
 
     public static void printMenu() {
         System.out.printf("\n\n======================= MENU =======================\n\n");
-        System.out.printf("1 - Genetic Algorithm\n2 - Non-Meta Heuristic Greedy Algorithm\n3 - Simulated Annealing Algorithm\n4 - Hill Climbing Algorithm\n0 - Exit");
+        System.out.printf("1 - Genetic Algorithm\n2 - Non-Meta Heuristic Greedy Algorithm\n3 - Simulated Annealing Algorithm\n4 - Hill Climbing Algorithm\n5 - Steepest-Ascent Hill Climbing Algorithm\n0 - Exit");
         System.out.printf("\n\nPlease select one option:");
     }
 }

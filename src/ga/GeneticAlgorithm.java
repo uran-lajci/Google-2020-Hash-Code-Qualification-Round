@@ -157,6 +157,8 @@ public class GeneticAlgorithm {
 
         //increment generation number
         this.currentGeneration++;
+
+        System.out.println("Generation " + this.currentGeneration + " best score: " + this.currentBestSolution.getScore() + " points.");
     }
 
     private void generateInitialPopulation() {

@@ -44,7 +44,8 @@ public class HillClimbing {
                 ignoredLibraries.remove(libraryCounter);
             }
         }
-
+        currentSolution.updateScore();
+        System.out.println("Initial solution's score: " + currentSolution.getScore() + " points.");
 
         int neighborCount = 0;
 
@@ -128,6 +129,9 @@ public class HillClimbing {
                 // If no valid neighbor was found than end the algorithm
                 neighborCount = maxNeighborSearch;
             }
+
+            System.out.println("Current best score: " + currentSolution.getScore() +  " points.");
+
         }
 
         // Update the score before returning the solution

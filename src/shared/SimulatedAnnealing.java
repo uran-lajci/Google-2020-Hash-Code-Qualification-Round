@@ -38,6 +38,9 @@ public class SimulatedAnnealing {
         // Clone the first solution since in the beginning it also is the best one
         Solution bestSolution = new Solution(currentSolution);
 
+        currentSolution.updateScore();
+        System.out.println("Initial solution's score: " + currentSolution.getScore() + " points.");
+
         // Until the temperature reaches one
         for (double t = temperature; t > 1; t *= coolingFactor) {
 
@@ -117,6 +120,11 @@ public class SimulatedAnnealing {
                     bestSolution = new Solution(currentSolution);
                 }
             }
+
+            System.out.println("\nTemperature: " + t);
+            System.out.println("Current score: " + currentSolution.getScore() +  " points.");
+            System.out.println("Best score: " + bestSolution.getScore() +  " points.");
+
         }
 
         // Update the score before returning the solution
@@ -131,7 +139,7 @@ public class SimulatedAnnealing {
         }
 
         // If not calculate a probability
-        return Math.exp((score2-score1) / temperature);
+        return 1/(1 + Math.exp((score2-score1) / temperature));
     }
 
 }

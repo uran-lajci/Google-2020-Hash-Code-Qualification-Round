@@ -46,6 +46,8 @@ public class HillClimbingStochastic {
             }
         }
 
+        currentSolution.updateScore();
+        System.out.println("Initial solution's score: " + currentSolution.getScore() + " points.");
 
         boolean betterNeighborFound = true;
 
@@ -140,6 +142,9 @@ public class HillClimbingStochastic {
                 // If there are no neighbors with better score the algorithm will end
                 betterNeighborFound = false;
             }
+
+            System.out.println("Current best score: " + currentSolution.getScore() +  " points.");
+
         }
 
         // Update the score before returning the solution

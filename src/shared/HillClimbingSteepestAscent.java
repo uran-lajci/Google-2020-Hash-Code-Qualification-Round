@@ -45,6 +45,9 @@ public class HillClimbingSteepestAscent {
             }
         }
 
+        currentSolution.updateScore();
+        System.out.println("Initial solution's score: " + currentSolution.getScore() + " points.");
+
         // List to store the neighborhood found
         List<Solution> listOfNeighbor = new ArrayList<>();
 
@@ -157,6 +160,9 @@ public class HillClimbingSteepestAscent {
                 listOfNeighbor.clear();
                 neighborCount = 0;
             }
+
+            System.out.println("Current best score: " + currentSolution.getScore() +  " points.");
+
         }
 
         // Update the score before returning the solution

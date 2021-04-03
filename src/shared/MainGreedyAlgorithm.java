@@ -9,12 +9,12 @@ import java.util.List;
 public class MainGreedyAlgorithm {
 
     public static List<Library> chosenLibraries = new ArrayList<Library>();
-    static List<Book> usedBooks = new ArrayList<>();
+    static List<Book> usedBooks;
 
     public static Solution greedyAlgorithm(Data readData, int deadline) throws Exception {
 
         Data data = new Data(readData);
-
+        usedBooks = new ArrayList<>();
         data.libraries.sort(new Comparator<Library>() {
             @Override
             public int compare(Library a, Library b) {

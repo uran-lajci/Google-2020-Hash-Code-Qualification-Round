@@ -8,7 +8,7 @@ This is the first project developed within the scope of IART.
 Simply go to the root of the project and run:
 
 ```
-java -jar iart_project1.jar
+java -jar jar/iart_project1.jar
 ```
 
 ### Choosing a file ###

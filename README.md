@@ -1,11 +1,12 @@
 # README #
 
-### Developed by ###
-Eduardo Carneiro
-Tomás Santos
-Monika Stepien
 
 Metaheuristics for the Book Scanning problem in the Google 2020 Hash Code Qualification round.<br>
+
+### Developed by ###
+- Eduardo Carneiro
+- Tomás Santos
+- Monika Stepien
 
 
 ### How do I run the application? ###

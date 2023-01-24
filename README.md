@@ -4,7 +4,7 @@
 Metaheuristics for the Book Scanning problem in the Google 2020 Hash Code Qualification round.<br>
 
 ### Developed by ###
-- Eduardo Carneiro
+- Eduardo Carneiro [**Me**]
 - Tomás Santos
 - Monika Stepien
 

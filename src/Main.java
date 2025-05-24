@@ -53,7 +53,7 @@ public class Main {
 
                     while (
                             ga.getCurrentGeneration() < maxGen &&
-                                    (System.currentTimeMillis() - startTime) < maxDuration // Time check
+                                    (System.currentTimeMillis() - startTime_ga) < maxDuration // Time check
                     ) {
                         ga.algorithmStep();
                     }

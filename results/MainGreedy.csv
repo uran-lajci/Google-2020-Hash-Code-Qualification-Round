@@ -1,0 +1,12 @@
+instance_path,score,time_ms
+"real-world/appalachian_regional_project.txt",78464,10
+"real-world/deutsche_digitale_bibliothek.txt",48463922,10836
+"real-world/vatican_secret_archives_project.txt",2544059,13
+"real-world/oxford_bodleian_archives.txt",7979867,81
+"real-world/new_york_public_library_system.txt",20199478,3398
+"real-world/internet_archive_bulk_scanning.txt",14967982,14633
+"synthetic/synthetic_70.txt",249881,48
+"synthetic/synthetic_12.txt",28326692,3560
+"synthetic/synthetic_121.txt",48041,63
+"synthetic/synthetic_101.txt",152994,57
+"synthetic/synthetic_1.txt",267587,50

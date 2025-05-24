@@ -1,183 +1,146 @@
-import java.awt.*;
-
 import ga.GeneticAlgorithm;
 import shared.*;
 
 import java.io.File;
-import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
+        if (args.length < 3) {
+            printUsage();
+            System.exit(1);
+        }
+
+        String inputPath = args[0];
+        String outputPath = args[1];
+        String algorithm = args[2];
+
         FileReader reader = new FileReader();
-        System.out.printf("======================= BOOK SCANNING =======================\n\n");
+        Data data = reader.readFile(new File(inputPath));
 
-        System.out.printf("Please choose the input file!\n\n");
+        long startTime = System.nanoTime();
+        Solution solution = null;
 
+        long startTime_ga = System.currentTimeMillis();
+        long maxDuration = 10 * 60 * 1000; // 10 minutes in milliseconds
 
-        FileDialog dialog = new FileDialog((Frame) null, "Select File to Open");
-        dialog.setMode(FileDialog.LOAD);
-        dialog.setVisible(true);
-        String file = dialog.getFile();
-        dialog.dispose();
-        Data data = reader.readFile(new File(file));
+        switch (algorithm) {
+            case "1": // Greedy Algorithm
+                if (args.length != 3) {
+                    System.err.println("Usage for Greedy Algorithm: java Main <input> <output> 1");
+                    System.exit(1);
+                }
+                solution = MainGreedyAlgorithm.greedyAlgorithm(data, data.noDays);
+                break;
 
-        System.out.println("File " + file + " read!\n");
+            case "2": // Genetic Algorithm
+                if (args.length != 8) {
+                    System.err.println("Usage for Genetic Algorithm: java Main <input> <output> 2 <minPopulation> <procreationFactor> <mutationRate> <maxGenerations> <mutationType>");
+                    System.exit(1);
+                }
+                try {
+                    int minPop = Integer.parseInt(args[3]);
+                    double procreation = Double.parseDouble(args[4]);
+                    double mutationRate = Double.parseDouble(args[5]);
+                    int maxGen = Integer.parseInt(args[6]);
+                    String mutationType = args[7];
 
-        String choice = null;
-        Scanner scan = new Scanner(System.in);
-
-        String input = "";
-        long startTime, endTime, timeElapsed = 0;
-
-        do {
-            printMenu();
-            choice = scan.nextLine();
-            switch (choice) {
-                case "1":
-                    startTime = System.nanoTime();
-                    Solution solution = MainGreedyAlgorithm.greedyAlgorithm(data, data.noDays);
-                    endTime = System.nanoTime();
-                    timeElapsed = (endTime - startTime) / 1000000;
-                    System.out.println("Finished execution.\n");
-
-                    System.out.printf("\nInsert the solution file name:");
-                    input = scan.nextLine();
-                    solution.exportFile(input);
-
-                    System.out.printf("\nBest score: %d points in %d milliseconds.", solution.getScore(), timeElapsed);
-
-                    break;
-                case "2":
-
-                    System.out.println("Insert the minimum population size:");
-                    input = scan.nextLine();
-                    int minimumPopulationSize = Integer.parseInt(input);
-
-                    System.out.println("Insert the procreation factor:");
-                    input = scan.nextLine();
-                    double procreationFactor = Double.parseDouble(input);
-
-                    System.out.println("Insert the mutation rate:");
-                    input = scan.nextLine();
-                    double mutationRate = Double.parseDouble(input);
-
-                    System.out.println("Insert the maximum number of generations:");
-                    input = scan.nextLine();
-                    int maxSteps = Integer.parseInt(input);
-
-                    System.out.println("Insert the mutation type:");
-                    String mutationType = scan.nextLine().trim();
-
-                    startTime = System.nanoTime();
-
-                    System.out.println("Generating initial population...\n");
-
-                    GeneticAlgorithm ga = new GeneticAlgorithm(procreationFactor, mutationRate, maxSteps, data, mutationType, minimumPopulationSize);
-
-                    System.out.println("Population generated. Starting evolution...");
-
-                    while (ga.getCurrentGeneration() < maxSteps) {
+                    GeneticAlgorithm ga = new GeneticAlgorithm(procreation, mutationRate, maxGen, data, mutationType, minPop);
+                    while (ga.getCurrentGeneration() < maxGen) {
                         ga.algorithmStep();
                     }
+                    solution = ga.getCurrentBestSolution();
 
-                    endTime = System.nanoTime();
-                    timeElapsed = (endTime - startTime) / 1000000;
+                    while (
+                            ga.getCurrentGeneration() < maxGen &&
+                                    (System.currentTimeMillis() - startTime) < maxDuration // Time check
+                    ) {
+                        ga.algorithmStep();
+                    }
+                    solution = ga.getCurrentBestSolution();
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid parameter: " + e.getMessage());
+                    System.exit(1);
+                }
+                break;
 
-                    System.out.println("Finished execution.\n");
+            case "3": // Simulated Annealing
+                if (args.length != 5) {
+                    System.err.println("Usage for Simulated Annealing: java Main <input> <output> 3 <temperature> <coolingFactor>");
+                    System.exit(1);
+                }
+                try {
+                    double temp = Double.parseDouble(args[3]);
+                    double cooling = Double.parseDouble(args[4]);
+                    solution = SimulatedAnnealing.simulatedAnnealingAlgorithm(data, temp, cooling);
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid parameter: " + e.getMessage());
+                    System.exit(1);
+                }
+                break;
 
-                    System.out.printf("\nInsert the solution file name:");
-                    input = scan.nextLine();
-                    ga.getCurrentBestSolution().exportFile(input);
+            case "4": // Hill Climbing
+                if (args.length != 4) {
+                    System.err.println("Usage for Hill Climbing: java Main <input> <output> 4 <maxNeighbor>");
+                    System.exit(1);
+                }
+                try {
+                    int maxNeighbor = Integer.parseInt(args[3]);
+                    solution = HillClimbing.hillClimbingAlgorithm(data, maxNeighbor);
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid parameter: " + e.getMessage());
+                    System.exit(1);
+                }
+                break;
 
-                    String result = String.format("\nBest score: %d points in %d milliseconds.", ga.getCurrentBestSolution().getScore(), timeElapsed);
-                    System.out.println(result);
-                    break;
-                case "3":
-                    System.out.printf("\n\nInsert the initial temperature:");
-                    input = scan.nextLine();
-                    double temperature = Double.parseDouble(input);
+            case "5": // Steepest-Ascent Hill Climbing
+                if (args.length != 4) {
+                    System.err.println("Usage for Steepest-Ascent HC: java Main <input> <output> 5 <neighborhoodSize>");
+                    System.exit(1);
+                }
+                try {
+                    int neighborhoodSize = Integer.parseInt(args[3]);
+                    solution = HillClimbingSteepestAscent.hillClimbingSteepestAscentAlgorithm(data, neighborhoodSize);
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid parameter: " + e.getMessage());
+                    System.exit(1);
+                }
+                break;
 
-                    System.out.print("\nInsert the cooling factor:");
-                    input = scan.nextLine();
-                    double coolingFactor = Double.parseDouble(input);
+            case "6": // Stochastic Hill Climbing
+                if (args.length != 4) {
+                    System.err.println("Usage for Stochastic HC: java Main <input> <output> 6 <neighborhoodSize>");
+                    System.exit(1);
+                }
+                try {
+                    int neighborhoodSize = Integer.parseInt(args[3]);
+                    solution = HillClimbingStochastic.hillClimbingStochasticAlgorithm(data, neighborhoodSize);
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid parameter: " + e.getMessage());
+                    System.exit(1);
+                }
+                break;
 
-                    startTime = System.nanoTime();
-                    Solution solutionSA = SimulatedAnnealing.simulatedAnnealingAlgorithm(data, temperature, coolingFactor);
-                    endTime = System.nanoTime();
-                    timeElapsed = (endTime - startTime) / 1000000;
-                    System.out.println("\nFinished execution.\n");
+            default:
+                System.err.println("Invalid algorithm choice. Valid options are 1-6.");
+                System.exit(1);
+        }
 
-                    System.out.printf("\nInsert the solution file name:");
-                    input = scan.nextLine();
-                    solutionSA.exportFile(input);
-                    System.out.printf("\n\nBest score: %d points in %d milliseconds.", solutionSA.getScore(), timeElapsed);
-                    break;
+        long endTime = System.nanoTime();
+        long timeElapsed = (endTime - startTime) / 1_000_000;
 
-                case "4":
-                    System.out.printf("\n\nInsert the maximum number for the neighbor search:");
-                    input = scan.nextLine();
-                    int maxNeighbor = Integer.parseInt(input);
-
-                    startTime = System.nanoTime();
-                    Solution solutionHC = HillClimbing.hillClimbingAlgorithm(data, maxNeighbor);
-                    endTime = System.nanoTime();
-                    timeElapsed = (endTime - startTime) / 1000000;
-                    System.out.println("\nFinished execution.\n");
-
-                    System.out.printf("\nInsert the solution file name:");
-                    input = scan.nextLine();
-                    solutionHC.exportFile(input);
-                    System.out.printf("\n\nBest score: %d points in %d milliseconds.", solutionHC.getScore(), timeElapsed);
-                    break;
-                case "5":
-                    System.out.printf("\n\nInsert the desired neighborhood size:");
-                    input = scan.nextLine();
-                    int neighborhoodSize = Integer.parseInt(input);
-
-
-                    startTime = System.nanoTime();
-                    Solution solutionHCSA = HillClimbingSteepestAscent.hillClimbingSteepestAscentAlgorithm(data, neighborhoodSize);
-                    endTime = System.nanoTime();
-                    timeElapsed = (endTime - startTime) / 1000000;
-                    System.out.println("\nFinished execution.\n");
-
-                    System.out.printf("\nInsert the solution file name:");
-                    input = scan.nextLine();
-                    solutionHCSA.exportFile(input);
-                    System.out.printf("\n\nBest score: %d points in %d milliseconds.", solutionHCSA.getScore(), timeElapsed);
-                    break;
-                case "6":
-                    System.out.printf("\n\nInsert the desired neighborhood size:");
-                    input = scan.nextLine();
-                    int neighborhoodDesiredSize = Integer.parseInt(input);
-
-                    startTime = System.nanoTime();
-                    Solution solutionHCS = HillClimbingStochastic.hillClimbingStochasticAlgorithm(data, neighborhoodDesiredSize);
-                    endTime = System.nanoTime();
-                    timeElapsed = (endTime - startTime) / 1000000;
-                    System.out.println("\nFinished execution.\n");
-
-                    System.out.printf("\nInsert the solution file name:");
-                    input = scan.nextLine();
-                    solutionHCS.exportFile(input);
-                    System.out.printf("\n\nBest score: %d points in %d milliseconds.", solutionHCS.getScore(), timeElapsed);
-                    break;
-                case "0":
-                    System.out.printf("\n\nProgram terminated!");
-                    break;
-                default:
-                    System.out.printf("\n\nPlease insert a valid option:");
-                    break;
-            }
-
-        } while (!choice.equals("0"));
+        solution.exportFile(outputPath);
+        System.out.printf("Best score: %d points in %d milliseconds.%n", solution.getScore(), timeElapsed);
     }
 
-    public static void printMenu() {
-        System.out.printf("\n\n======================= MENU =======================\n\n");
-        System.out.printf("1 - Non-Meta Heuristic Greedy Algorithm\n2 - Genetic Algorithm\n3 - Simulated Annealing Algorithm" +
-                "\n4 - Hill Climbing Algorithm\n5 - Steepest-Ascent Hill Climbing Algorithm\n6 - Stochastic Hill Climbing Algorithm\n0 - Exit");
-        System.out.printf("\n\nPlease select one option:");
+    private static void printUsage() {
+        System.out.println("Usage: java Main <inputFile> <outputFile> <algorithm> [parameters...]");
+        System.out.println("Algorithms and their parameters:");
+        System.out.println("1 - Greedy Algorithm: No additional parameters");
+        System.out.println("2 - Genetic Algorithm: <minPopulation> <procreationFactor> <mutationRate> <maxGenerations> <mutationType>");
+        System.out.println("3 - Simulated Annealing: <temperature> <coolingFactor>");
+        System.out.println("4 - Hill Climbing: <maxNeighbor>");
+        System.out.println("5 - Steepest-Ascent Hill Climbing: <neighborhoodSize>");
+        System.out.println("6 - Stochastic Hill Climbing: <neighborhoodSize>");
     }
 }

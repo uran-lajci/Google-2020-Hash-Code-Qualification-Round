@@ -289,7 +289,8 @@ public class GeneticAlgorithm {
         children[1] = new Solution(this.data.noDays);
 
         List<Library> parent1Libraries = parent1.getLibraries();
-        List<Library> parent2Libraries = parent1.getLibraries();
+//        List<Library> parent2Libraries = parent1.getLibraries(); // Incorrect
+        List<Library> parent2Libraries = parent2.getLibraries(); // Correct
 
         // generate first part
         for (int i = 0; i < crossoverPoint; i++) {

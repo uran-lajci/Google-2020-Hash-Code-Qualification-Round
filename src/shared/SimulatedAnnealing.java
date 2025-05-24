@@ -5,7 +5,13 @@ import java.util.*;
 public class SimulatedAnnealing {
 
 
-    public static Solution simulatedAnnealingAlgorithm(Data data, double temperature, double coolingFactor) {
+    public static Solution simulatedAnnealingAlgorithm(
+            Data data,
+            double temperature,
+            double coolingFactor,
+            long maxDuration,
+            long startTime
+    ) {
 
         // Create a copy of the data so the original doesn't get destroyed and can be used for other executions
         Data currentData = new Data(data);
@@ -42,7 +48,7 @@ public class SimulatedAnnealing {
         System.out.println("Initial solution's score: " + currentSolution.getScore() + " points.");
 
         // Until the temperature reaches one
-        for (double t = temperature; t > 1; t *= coolingFactor) {
+        for (double t = temperature; t > 1 && (System.currentTimeMillis() - startTime) < maxDuration; t *= coolingFactor) {
 
             // Start the neighbor from the current solution
             Solution neighbor = new Solution(currentSolution);
@@ -121,9 +127,9 @@ public class SimulatedAnnealing {
                 }
             }
 
-            System.out.println("\nTemperature: " + t);
-            System.out.println("Current score: " + currentSolution.getScore() +  " points.");
-            System.out.println("Best score: " + bestSolution.getScore() +  " points.");
+//            System.out.println("\nTemperature: " + t);
+//            System.out.println("Current score: " + currentSolution.getScore() +  " points.");
+//            System.out.println("Best score: " + bestSolution.getScore() +  " points.");
 
         }
 

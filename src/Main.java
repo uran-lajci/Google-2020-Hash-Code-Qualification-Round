@@ -66,13 +66,17 @@ public class Main {
 
             case "3": // Simulated Annealing
                 if (args.length != 5) {
-                    System.err.println("Usage for Simulated Annealing: java Main <input> <output> 3 <temperature> <coolingFactor>");
+                    System.err.println("Usage: java Main <input> <output> 3 <temperature> <coolingFactor>");
                     System.exit(1);
                 }
                 try {
                     double temp = Double.parseDouble(args[3]);
                     double cooling = Double.parseDouble(args[4]);
-                    solution = SimulatedAnnealing.simulatedAnnealingAlgorithm(data, temp, cooling);
+
+                    // Run SA with time constraint
+                    solution = SimulatedAnnealing.simulatedAnnealingAlgorithm(
+                            data, temp, cooling, maxDuration, startTime_ga
+                    );
                 } catch (NumberFormatException e) {
                     System.err.println("Invalid parameter: " + e.getMessage());
                     System.exit(1);
@@ -86,7 +90,9 @@ public class Main {
                 }
                 try {
                     int maxNeighbor = Integer.parseInt(args[3]);
-                    solution = HillClimbing.hillClimbingAlgorithm(data, maxNeighbor);
+                    solution = HillClimbing.hillClimbingAlgorithm(
+                            data, maxNeighbor, maxDuration, startTime_ga
+                    );
                 } catch (NumberFormatException e) {
                     System.err.println("Invalid parameter: " + e.getMessage());
                     System.exit(1);

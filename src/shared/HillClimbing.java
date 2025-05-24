@@ -6,7 +6,12 @@ import java.util.List;
 
 public class HillClimbing {
 
-    public static Solution hillClimbingAlgorithm(Data data, int maxNeighborSearch) {
+    public static Solution hillClimbingAlgorithm(
+            Data data,
+            int maxNeighbor,
+            long maxDuration,
+            long startTime
+    ) {
 
         // Create a copy of the data so the original doesn't get destroyed and can be used for other executions
         Data currentData = new Data(data);
@@ -50,7 +55,10 @@ public class HillClimbing {
         int neighborCount = 0;
 
         // Until the maximum number of neighbor has not been searched for a better solution
-        while(neighborCount<maxNeighborSearch) {
+        while (
+                neighborCount < maxNeighbor &&
+                        (System.currentTimeMillis() - startTime) < maxDuration
+        ) {
 
             // Start the neighbor from the current solution
             Solution neighbor = new Solution(currentSolution);
@@ -60,7 +68,7 @@ public class HillClimbing {
 
             // Do this until we get a valid neighbor
             // If a solution has more throughput than the allowed than it is not a valid neighbor
-            while (!validSolution) {
+            while (!validSolution && (System.currentTimeMillis() - startTime) < maxDuration) {
 
                 // Indexes to switch libraries
                 int index1, index2;
@@ -127,11 +135,10 @@ public class HillClimbing {
                 }
             }else{
                 // If no valid neighbor was found than end the algorithm
-                neighborCount = maxNeighborSearch;
+                neighborCount = maxNeighbor;
             }
 
-            System.out.println("Current best score: " + currentSolution.getScore() +  " points.");
-
+//            System.out.println("Current best score: " + currentSolution.getScore() +  " points.");
         }
 
         // Update the score before returning the solution

@@ -143,30 +143,31 @@ public class Solution implements Comparable<Solution> {
         return Objects.hash(days, noLibraries, libraries);
     }
 
-    public void exportFile(String fileName) {
-        String filePath = "./" + fileName + ".txt";
-        File newFile = new File(filePath);
+    public void exportFile(String fullOutputPath) {  // Rename parameter for clarity
+        File newFile = new File(fullOutputPath);
         try {
+            // Create parent directories if they don't exist
+            newFile.getParentFile().mkdirs();
+
             FileWriter myWriter = new FileWriter(newFile);
             String noLibraries = String.format("%d", this.noLibraries);
-            String librariesStr = "";
+            StringBuilder librariesStr = new StringBuilder();  // More efficient than string concatenation
+
             for (Library l : libraries) {
-                librariesStr += String.format("%d %d\n", l.id, l.chosenBooks.size());
+                librariesStr.append(String.format("%d %d%n", l.id, l.chosenBooks.size()));
                 for (Book b : l.chosenBooks) {
-                    librariesStr += String.format("%d ", b.id);
+                    librariesStr.append(String.format("%d ", b.id));
                 }
-                librariesStr += String.format("\n");
+                librariesStr.append("%n");
             }
 
-            String fileText = String.format("%s\n%s", noLibraries, librariesStr);
-
+            String fileText = String.format("%s%n%s", noLibraries, librariesStr.toString().trim());
             myWriter.write(fileText);
             myWriter.close();
-            System.out.printf("\n\nFile created: " + newFile.getName());
+            System.out.printf("%n%nFile created: " + newFile.getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public boolean isSolutionValid() {

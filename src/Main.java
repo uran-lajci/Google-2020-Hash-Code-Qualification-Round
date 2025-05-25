@@ -110,7 +110,10 @@ public class Main {
                     solution = HillClimbingSteepestAscent.hillClimbingSteepestAscentAlgorithm(
                         data, neighborhoodSize, maxDuration, startTime_ga
                     );
-                } catch (NumberFormatException e) { ... }
+                } catch (NumberFormatException e) catch (NumberFormatException e) {
+                    System.err.println("Invalid parameter: " + e.getMessage());
+                    System.exit(1);
+                }
                 break;
 
             case "6": // Stochastic Hill Climbing

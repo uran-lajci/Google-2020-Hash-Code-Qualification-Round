@@ -41,7 +41,7 @@ find "$INPUT_BASE_DIR" -type f -name "*.txt" | while read INPUT_FILE; do
     echo "Input: $INPUT_FILE"
     echo "Output: $OUTPUT_PATH"
 
-    OUTPUT=$(java -cp "$CLASS_DIR" Main "$INPUT_FILE" "$OUTPUT_PATH" 2 50 1.5 0.05 10000 switch 2>&1)
+    OUTPUT=$(java -cp "$CLASS_DIR" Main "$INPUT_FILE" "$OUTPUT_PATH" 2 100 2.0 0.03 10000 switch 2>&1)
     echo "$OUTPUT"  # Display Java output for debugging
 
     # Check if output file was created

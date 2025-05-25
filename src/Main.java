@@ -46,15 +46,8 @@ public class Main {
                     String mutationType = args[7];
 
                     GeneticAlgorithm ga = new GeneticAlgorithm(procreation, mutationRate, maxGen, data, mutationType, minPop);
-                    while (ga.getCurrentGeneration() < maxGen) {
-                        ga.algorithmStep();
-                    }
-                    solution = ga.getCurrentBestSolution();
 
-                    while (
-                            ga.getCurrentGeneration() < maxGen &&
-                                    (System.currentTimeMillis() - startTime_ga) < maxDuration // Time check
-                    ) {
+                    while (ga.getCurrentGeneration() < maxGen && (System.currentTimeMillis() - startTime) < maxDuration) {
                         ga.algorithmStep();
                     }
                     solution = ga.getCurrentBestSolution();

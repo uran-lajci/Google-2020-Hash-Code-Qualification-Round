@@ -5,7 +5,7 @@ SRC_DIR="$PROJECT_ROOT/src"
 CLASS_DIR="$PROJECT_ROOT/target/classes"
 
 BASH_SCRIPTS_DIR="$PROJECT_ROOT/bash_scripts"
-INPUT_BASE_DIR="/home/uran/Documents/GitHub/Book.Scanning.Dataset/instances"
+INPUT_BASE_DIR="/home/uranlajci/Google-2020-Hash-Code-Qualification-Round/instances"
 
 OUTPUT_BASE_DIR="$PROJECT_ROOT/output_instances/GA"
 RESULTS_FILE="$PROJECT_ROOT/results/GA.csv"

@@ -100,17 +100,17 @@ public class Main {
                 break;
 
             case "5": // Steepest-Ascent Hill Climbing
-                if (args.length != 4) {
-                    System.err.println("Usage for Steepest-Ascent HC: java Main <input> <output> 5 <neighborhoodSize>");
+                 if (args.length != 4) {
+                    System.err.println("Usage: java Main <input> <output> 5 <neighborhoodSize>");
                     System.exit(1);
                 }
                 try {
                     int neighborhoodSize = Integer.parseInt(args[3]);
-                    solution = HillClimbingSteepestAscent.hillClimbingSteepestAscentAlgorithm(data, neighborhoodSize);
-                } catch (NumberFormatException e) {
-                    System.err.println("Invalid parameter: " + e.getMessage());
-                    System.exit(1);
-                }
+
+                    solution = HillClimbingSteepestAscent.hillClimbingSteepestAscentAlgorithm(
+                        data, neighborhoodSize, maxDuration, startTime_ga
+                    );
+                } catch (NumberFormatException e) { ... }
                 break;
 
             case "6": // Stochastic Hill Climbing
@@ -120,7 +120,9 @@ public class Main {
                 }
                 try {
                     int neighborhoodSize = Integer.parseInt(args[3]);
-                    solution = HillClimbingStochastic.hillClimbingStochasticAlgorithm(data, neighborhoodSize);
+                    solution = HillClimbingStochastic.hillClimbingStochasticAlgorithm(
+                        data, neighborhoodSize, maxDuration, startTime_ga
+                    );
                 } catch (NumberFormatException e) {
                     System.err.println("Invalid parameter: " + e.getMessage());
                     System.exit(1);
